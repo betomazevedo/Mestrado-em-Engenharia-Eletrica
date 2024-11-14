@@ -5,7 +5,8 @@ This repository stores only the modules and notebooks developed and/or revised, 
 
 
 # Modular Artificial Intelligence System (MAIS), version 2.0
-(New version of README.md)
+(New version of README.md of MAIS)
+
 This repository presents MAIS, a system that implements Machine Learning techniques on a modular way, enabling the developer to test his/her own experiments and/or adapting others esperimentsexperiments with their own idea. MAIS was developed by the Signal, Multimedia and Telecommunications (SMT) laboratory with the help from Petrobras.
 
 In this version, MAIS implements a multiclass LGBM classifier, with the following optional features:
