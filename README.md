@@ -1,7 +1,7 @@
 # Mestrado-em-Engenharia-Eletrica
-Neste repositório estão armazenados os módulos e notebooks desenvolvidos e/ou revisados para implementação dos experimentos relatados na dissertação de Mestrado em Engenharia Elétrica de Antonio Alberto Moreira de Azevedo, complementando os módulos do MAIS.
+Neste repositório estão armazenados os módulos e notebooks desenvolvidos e/ou revisados para implementação dos experimentos relatados na dissertação de Mestrado em Engenharia Elétrica de Antonio Alberto Moreira de Azevedo, complementando os módulos do MAIS. Portanto, o módulo tune_lgbm.py foi susbstituído pelo tune_lgbm_dagshub.py, contendo as funções necessárias para publicar os resultados dos experimentos e cenários associados, de treinamento e teste, inclusive os modelos treinados, no repositório MLFLOW. E foi adicionado o notebook plot_results.ipynb, para emissão dos desenhos das matrizes de confusão, matrizes de confusão das anomalias agrupadas, e para os gráficos representativos de evolução temporal dos sensores e das inferências por instância usadas nos experimentos (alarme de evento), com legendas no idioma português.
 
-This repository stores the modules and notebooks developed and/or revised for the implementation of the experiments reported in the Master's dissertation in Electrical Engineering by Antonio Alberto Moreira de Azevedo, complementing the MAIS modules.
+This repository stores the modules and notebooks developed and/or revised for the implementation of the experiments reported in the Master's dissertation in Electrical Engineering by Antonio Alberto Moreira de Azevedo, complementing the MAIS modules. Therefore, the tune_lgbm.py module was replaced by tune_lgbm_dagshub.py, containing the functions necessary to publish the results of the experiments and associated training and testing scenarios, including the trained models, in the MLFLOW repository. And the plot_results.ipynb notebook was added, to issue the drawings of the confusion matrices, confusion matrices of the grouped anomalies, and for the representative graphs of the temporal evolution of the sensors and the inferences per instance used in the experiments (event alarm), with captions in Portuguese.
 
 # Modular Artificial Intelligence System (MAIS), version 2.0
 
@@ -28,8 +28,9 @@ In this version, MAIS implements a multiclass LGBM classifier, with the followin
 │       ├── experiments
 │       │   ├── base_experiment.py
 │       │   ├── multi_ew_stats_mrl_nonan.py
-│       │   └── ...
-│       ├── train_lgbm_dagshub.py
+│       │   ├── ...
+|       |   └── plot_results.ipynb
+│       └── tune_lgbm_dagshub.py
 ├── dataset
 │   └── dataset.py
 ├── processing
@@ -51,7 +52,7 @@ The "mais/" folder contains classes definitions that create everything that is u
      2. TorchWaveletFeatureMapper: creates wavelets features;
      3. TorchEWStatisticalFeatureMapper: creates statistical features from a window with exponential weights for each sample.
   3. mais/dataprocessing/label\_mappers.py: Creates the classes that define how the detection is done. For example, it is possible to choose if the transient period of signal will be considered, or if the samples in the beggining of a file (which are usually not faulty) will be considered.
-4. mais/training/tune\_lgbm\_dagshub.py: Initializes a mlflow experiment containing all runs from the Bayesian optimization search.  For every run, the script trains a model and saves its metrics.  It was developed for PYTHON.  If you intend to work on WINDOWS, you must comment in line 483 [os.nice(19)].  The os.nice() method is only available on UNIX platforms. 
+4. mais/training/tune\_lgbm\_dagshub.py: Initializes a mlflow experiment containing all runs from the Bayesian optimization search.  For every run, the script trains a model and saves its metrics.  It was developed for PYTHON.  If you intend to work on WINDOWS, you must comment in line 483 [os.nice(19)].  The os.nice() method is only available on UNIX platforms. This module is responsible for the multiclass classifier. Specific functions were created in it to publish the results of the experiments and associated training and testing scenarios, including the trained models, in the MLFLOW repository.
 
   So, to add new utility functions and/or classes, the "mais/" folder is probably the best place (under the correspondent file). For example, if one needs to create a new feature extractor, the best way to proceed is creating a new FeatureMapper under the file  "mais/data/feature\_mappers.py".
 
