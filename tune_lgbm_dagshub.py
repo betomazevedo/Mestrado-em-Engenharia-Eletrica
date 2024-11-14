@@ -136,7 +136,7 @@ def log_result(result):   # result = score_model(train_set, test_set, best_exper
             pickle.dump(result["experiment"], f)
         mlflow.log_artifact(f.name)
 
-        with open(os.path.join(tmp_dir, "result.pkl"), "wb") as f:   # Inserido em 01/07/24
+        with open(os.path.join(tmp_dir, "result.pkl"), "wb") as f:   
             pickle.dump(result["confusion_matrix"]["normalized"], f)
         mlflow.log_artifact(f.name)
         
@@ -175,13 +175,13 @@ def plot_confusion_matrix(cm, std=None, normalize=False):
 
     if std is not None:
         annot = [
-            [rf"${v:.3f}\pm{s:.3f}$" for v, s in zip(vr, sr)] for vr, sr in zip(cm, std)  # Configura casas decimais da matriz
+            [rf"${v:.3f}\pm{s:.3f}$" for v, s in zip(vr, sr)] for vr, sr in zip(cm, std)  # Sets decimal places of the matrix
         ]
     else:
         annot = [[f"${v:.3f}$" for v in vr] for vr in cm]     #f"${v:.2f}$"
     
     fig, ax = plt.subplots(figsize=(9, 9))  # alterado para 8,8
-    sns.heatmap(cm, cmap="viridis", annot=annot, fmt="", square=True, ax=ax)  # Configura casas decimais da matrizencoded matrix
+    sns.heatmap(cm, cmap="viridis", annot=annot, fmt="", square=True, ax=ax)  # Sets decimal places of encoded matrix
     ax.set_xlabel("Predicted label")
     ax.set_ylabel("True label")
     return fig, ax
@@ -205,7 +205,7 @@ def score_model(train_set, test_set, experiment, model, n_jobs=-1):
     print(f"train_set after splitted (80 %): X(shape) ={Xt.shape} /  y(shape) = {yt.shape} /  glen(shape) = {gt.shape}")  # Para ver a dimensão pós separação
     print(f"assess_set after splitted for early-sttoping (20%): X(shape) ={Xs.shape} /  y(shape) = {ys.shape} /  glen(shape) = {gs.shape}")  # Para ver a dimensão pós separação
     # rebalance train set
-    Xt, yt, _ = experiment.balance(Xt, yt, gt, train_set.g_class)   # *********It must be commented when run with pseudo_normal splitted *******  !!!
+    Xt, yt, _ = experiment.balance(Xt, yt, gt, train_set.g_class)   # ****It must be commented when run with pseudo_normal splitted ****  !!!
     print(f"train_set after balanced: X(shape) ={Xt.shape} / y(shape) = {yt.shape} / glen(shape) = {gt.shape}")  # para ver dimensão pós bal de  eventos 0 normal e 0 de falha
 
     # preprocess and fit - 
@@ -216,7 +216,7 @@ def score_model(train_set, test_set, experiment, model, n_jobs=-1):
     print("-------------------------------------experiment.fit-------------------------------------------")
     Xt, yt = experiment.fit_transform(Xt, yt) #Fit the model with X (Singular Value Decomposition to project it to a lower dimens space
     print(f"train_set after dimensionality_reduction step: X(shape) ={Xt.shape} / y(shape) = {yt.shape}")
-    print('-------------Concluded preprocess and data transf for training------------------------')  # added 1n 31/12/23
+    print('-------------Concluded preprocess and data transf for training------------------------')  
     Xs, ys = experiment.transform(Xs, ys) # Apply dimensionality reduction to X 
     print(f"assess_set after dimensionality_reduction step for early-stopping: Xs(shape) ={Xs.shape} / ys(shape) = {ys.shape}")
     
@@ -230,7 +230,7 @@ def score_model(train_set, test_set, experiment, model, n_jobs=-1):
         lgb.log_evaluation(10),
     ]
     model.fit(Xt, yt, eval_set=[(Xs, ys)], callbacks=fit_cb) # lightgbm.LGBMClassifier.fit - Build a gradient boosting model from the training set (X, y).
-    print('-------------  Concluded training ----------------------------')  # added 1n 31/12/23
+    print('-------------  Concluded training ----------------------------')  
     
     XT, yT = experiment.transform(test_set.X, test_set.y)
     print(f"validation_set or test_set after dimensionality_reduction: X(shape) ={XT.shape} / y(shape) = {yT.shape}")
@@ -268,13 +268,11 @@ def cross_val_score(events, experiment, model, num_splits, n_jobs=-1):
     
     # gather event types for stratification 
     event_types = [e[2] for e in transformed_events]
-    logger.info(f"number of instances(events) in both training and validation = {np.array(event_types).shape}") # Exibindo os eventos selec mediante indexação dos subdiretórios 
+    logger.info(f"number of instances(events) in both training and validation = {np.array(event_types).shape}") # Displaying selected events by indexing subdirectories 
     # (excluindo o timestamp e caracteríticas)
     
     results = []
-    for train, test in StratifiedKFold(num_splits, 
-                                       # random_state=0, shuffle=True,   #inserido random_state=0 e shuffle=True em 04/07/24. ****COMENTAR PARA ALEATÓRIO************
-                                      ).split(      
+    for train, test in StratifiedKFold(num_splits).split(      
         transformed_events, event_types
     ):
         train_set = MAEDataset.gather([transformed_events[i] for i in train])
@@ -338,60 +336,6 @@ def hyperparameter_search(events, experiment_sampler, model_sampler, config):
     return study
 
 
-# def nested_cv_score(events, experiment_sampler, model_sampler, config):
-#     # adjust num splits for config
-#     config["num_splits"] = config["inner_splits"]
-
-#     # extract the source of each event
-#     event_type = [e["event_type"] for e in events]
-#     results = []
-#     cv = StratifiedKFold(config["outer_splits"])  # split events, stratified
-#     for train, test in cv.split(events, event_type):
-#         train_events = [events[i] for i in train]
-#         test_events = [events[i] for i in test]
-
-#         # find best parameters for current split
-#         study = hyperparameter_search(
-#             train_events, experiment_sampler, model_sampler, config
-#         )
-#         best_trial = study.best_trial
-
-#         best_experiment = experiment_sampler(best_trial)
-#         best_model = model_sampler(best_trial)
-
-#         # evaluate best params
-
-#         # map and gather tranining set
-#         transformed_train_events = MAEDataset.transform_events(
-#             train_events,
-#             best_experiment.raw_transform,
-#             instance_types=best_experiment.instance_types,
-#             tgt_events=best_experiment.tgt_events,
-#             n_jobs=config["n_jobs"],
-#         )
-#         logger.info('Concluding feature extraction for nested_cv_score')
-#         train_set = MAEDataset.gather(transformed_train_events)
-                
-#         # map and gather test set
-#         transformed_test_events = MAEDataset.transform_events(
-#             test_events,
-#             best_experiment.raw_transform,
-#             instance_types=best_experiment.instance_types,
-#             tgt_events=best_experiment.tgt_events,
-#             n_jobs=config["n_jobs"],
-#         )
-#         test_set = MAEDataset.gather(transformed_test_events)
-
-#         result = score_model(
-#             train_set, test_set, best_experiment, best_model, config["n_jobs"]
-#         )
-#         results.append(result)
-
-#     # aggregate results
-#     results = gather_results(results)
-#     return results
-
-
 def lightgbm_sampler(trial):
     return lgb.LGBMClassifier(
         boosting_type="gbdt",  # traditional Gradient Boosting Decision Tree
@@ -401,7 +345,6 @@ def lightgbm_sampler(trial):
         subsample_freq=1,
         verbose=-1,
         metrics=["multi_error"],
-        # random_state=0,   #**********************COMENTAR PARA ALEATÓRIO*****************************************
         subsample=trial.suggest_float("subsample", 0.1, 1.0, step=0.05),
         colsample_bytree=trial.suggest_float("feature_fraction", 0.1, 1.0, step=0.05),
         reg_alpha=trial.suggest_float("lambda_l1", 1e-5, 10, log=True),
@@ -419,35 +362,6 @@ def parse_json(ctx, self, value):
 def cli(ctx, **kwargs):
     ctx.ensure_object(dict)
     ctx.obj.update(kwargs)
-
-
-# @cli.command()
-# @click.option("-r", "--data-root", type=click.Path(exists=True))
-# @click.option("-e", "--experiment-name", type=click.STRING)
-# @click.option("-n", "--num-trials", type=click.INT, default=100)
-# @click.option("-i", "--inner-splits", type=click.INT, default=5)
-# @click.option("-o", "--outer-splits", type=click.INT, default=5)
-# @click.option("-j", "--n-jobs", type=click.INT, default=-1)
-# @click.option("--fixed-params", type=click.STRING, default="{}", callback=parse_json)
-# @click.option("--user-attrs", type=click.STRING, default="{}", callback=parse_json)
-# @click.pass_context
-# def nested_cv(ctx, **kwargs):
-#     # gather configuration
-#     config = {**ctx.obj, **kwargs}
-
-#     with joblib.parallel_backend("loky", n_jobs=config["n_jobs"]):
-#         # preload events
-#         events = MAEDataset.load_events(config["data_root"], -1)
-
-#         model_sampler = lightgbm_sampler
-#         experiment_sampler = importlib.import_module(config["experiment_name"]).sample
-#         mlflow.set_experiment(datetime.datetime.now().strftime("%Y%m%d_%H%M_nested_cv"))
-
-#         with mlflow.start_run(run_name="nested_cv"):
-#             mlflow.log_params(config)
-#             results = nested_cv_score(events, experiment_sampler, model_sampler, config)
-#             log_results(results)
-
 
 @cli.command()
 @click.option("-t", "--train-root", type=click.Path(exists=True))
@@ -473,14 +387,14 @@ def tune(ctx, **kwargs):
         model_sampler = lightgbm_sampler  # lightgbm_sampler function, 386 line
         experiment_sampler = importlib.import_module(config["experiment_name"]).sample
         
-        os.environ['MLFLOW_TRACKING_USERNAME'] = input('betomazevedo39')
-        os.environ['MLFLOW_TRACKING_PASSWORD'] = getpass('a5da2b2fe7b1e2d9e7c3e600b92b75a2ea778625')
-        os.environ['MLFLOW_TRACKING_PROJECTNAME'] = input('multi_mixed')
+        os.environ['MLFLOW_TRACKING_USERNAME'] = input('[user name]')
+        os.environ['MLFLOW_TRACKING_PASSWORD'] = getpass('[getpass]')
+        os.environ['MLFLOW_TRACKING_PROJECTNAME'] = input('[project name]')
 
         # Use the DagsHub client to setup connection information for MLflow
         dagshub.init(repo_owner='betomazevedo39', repo_name='3W', mlflow=True)
 
-        mlflow.set_tracking_uri('https://dagshub.com/betomazevedo39/3W.mlflow') # reference to the Tracking server’s address
+        mlflow.set_tracking_uri('https://dagshub.com/[user name]/3W.mlflow') # reference to the Tracking server’s address
         
         # create experiment
         mlflow.set_experiment(datetime.datetime.now().strftime("%Y%m%d_%H%M_tuning"))
@@ -510,7 +424,7 @@ def tune(ctx, **kwargs):
             )
             train_set = MAEDataset.gather(transformed_train_events)
             print(' /////////////////////////////////////////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\')     
-            print(f"train_set (70%) ={np.array(train_set.X).shape}")     # Exibindo o conjunto de treinamento sem k-fold
+            print(f"train_set (70%) ={np.array(train_set.X).shape}")     # Displaying train set without k-fold
             
             # map and gather test set
             test_events = MAEDataset.load_events(config["test_root"], config["n_jobs"])
@@ -522,17 +436,17 @@ def tune(ctx, **kwargs):
                 n_jobs=config["n_jobs"],
             )
             test_set = MAEDataset.gather(transformed_test_events)
-            print(f"test_set (30%) ={np.array(test_set.X).shape}")     # Exibindo o conjunto de teste
+            print(f"test_set (30%) ={np.array(test_set.X).shape}")     # Displaying test set
             result = score_model(
                 train_set, test_set, best_experiment, best_model, config["n_jobs"]
             )
             # gather event types for stratification 
             event_types2 = [e[2] for e in transformed_test_events]
-            logger.info(f"number of instances(events) in both training and validation = {np.array(event_types2).shape}") # Exibindo os eventos selec mediante indexação dos subdiretórios 
-            # (excluindo o timestamp e caracteríticas)
+            logger.info(f"number of instances(events) in both training and validation = {np.array(event_types2).shape}") # Displaying selected events by indexing subdirectories
+           
             log_result(result)
             
 if __name__ == "__main__":
-    print('Executing as standalone script')  # inserido em 31/12/23
+    print('Executing as standalone script') 
     os.nice(19)
     cli(obj={})
