@@ -1,10 +1,11 @@
 # Mestrado-em-Engenharia-Eletrica
-Neste repositório estão armazenados somente os módulos e notebooks desenvolvidos e/ou revisados para implementação dos experimentos relatados na dissertação de Mestrado em Engenharia Elétrica de Antonio Alberto Moreira de Azevedo, complementando os módulos do MAIS. Portanto, o módulo tune_lgbm.py foi susbstituído pelo tune_lgbm_dagshub.py, contendo as funções necessárias para publicar os resultados dos experimentos e cenários associados, de treinamento e teste, inclusive os modelos treinados, no repositório MLFLOW. Foi adicionado o notebook plot_results.ipynb, para emissão dos desenhos das matrizes de confusão, matrizes de confusão das anomalias agrupadas, e para os gráficos representativos de evolução temporal dos sensores e das inferências por instância usadas nos experimentos (alarme de evento), com legendas no idioma português. Deve ser substituído o label_mappers.py pelo arquivo deste repositório, pois foram adicionadas classes com objetivo de realizar os Experimentos  1 e 2 da dissertação.
+Neste repositório estão armazenados somente os módulos e notebooks desenvolvidos e/ou revisados, complementando os módulos do MAIS, e um notebook de análise de agrupaemnto da Classe 1 (Experimento 6), para implementação dos experimentos relatados na dissertação de Mestrado em Engenharia Elétrica de Antonio Alberto Moreira de Azevedo. Portanto, no Pacote do MAIS, o módulo tune_lgbm.py_ foi susbstituído pelo tune_lgbm_dagshub.py (\*), contendo as funções necessárias para publicar os resultados dos experimentos e cenários associados, de treinamento e teste, inclusive os modelos treinados, no repositório MLFLOW. Foi adicionado o notebook plot_results.ipynb (\*), para emissão dos desenhos das matrizes de confusão, matrizes de confusão das anomalias agrupadas, e para os gráficos representativos de evolução temporal dos sensores e das inferências por instância usadas nos experimentos (alarme de evento), com legendas no idioma português. Deve ser substituído o label_mappers.py (\*) pelo arquivo deste repositório, pois foram adicionadas classes com objetivo de realizar os Experimentos  1 e 2 da dissertação. O LEIA-ME do MAIS foi revisado (verão 2.0),conforme disposto abaixo,  constando as alterações mencionadas acima. Os demais módulos do MAIS não foram alterados e podem ser carregados no repositório https://github.com/petrobras/3W/tree/main/toolkit/mais.
 
-This repository stores only the modules and notebooks developed and/or revised for the implementation of the experiments reported in the Master's dissertation in Electrical Engineering by Antonio Alberto Moreira de Azevedo, complementing the MAIS modules. Therefore, the tune_lgbm.py module was replaced by tune_lgbm_dagshub.py, containing the functions necessary to publish the results of the experiments and associated training and testing scenarios, including the trained models, in the MLFLOW repository. The plot_results.ipynb notebook was added, to issue the drawings of the confusion matrices, confusion matrices of the grouped anomalies, and for the representative graphs of the temporal evolution of the sensors and the inferences per instance used in the experiments (event alarm), with captions in Portuguese. label_mappers.py must be replaced with the file from this repository, considering that classes were added to it to perform Experiments 1 and 2 of dissertation.
+This repository stores only the modules and notebooks developed and/or revised, complementing the MAIS modules, and a Class 1 cluster analysis notebook (Experiment 6), for the implementation of the experiments reported in the Master's dissertation in Electrical Engineering by Antonio Alberto Moreira de Azevedo. Therefore, in MAIS package the tune_lgbm.py module was replaced by tune_lgbm_dagshub.py (\*), containing the functions necessary to publish the results of the experiments and associated training and testing scenarios, including the trained models, in the MLFLOW repository. The plot_results.ipynb (\*) notebook was added, to issue the drawings of the confusion matrices, confusion matrices of the grouped anomalies, and for the representative graphs of the temporal evolution of the sensors and the inferences per instance used in the experiments (event alarm), with captions in Portuguese. label_mappers.py (\*) must be replaced with the file from this repository, considering that classes were added to it to perform Experiments 1 and 2 of dissertation. The MAIS README has been revised (version 2.0), as set out below, including the changes mentioned above. The other MAIS modules have not been changed and can be uploaded to the repository https://github.com/petrobras/3W/tree/main/toolkit/mais.
+
 
 # Modular Artificial Intelligence System (MAIS), version 2.0
-
+(New version of README.md)
 This repository presents MAIS, a system that implements Machine Learning techniques on a modular way, enabling the developer to test his/her own experiments and/or adapting others esperimentsexperiments with their own idea. MAIS was developed by the Signal, Multimedia and Telecommunications (SMT) laboratory with the help from Petrobras.
 
 In this version, MAIS implements a multiclass LGBM classifier, with the following optional features:
@@ -29,13 +30,13 @@ In this version, MAIS implements a multiclass LGBM classifier, with the followin
 │       │   ├── base_experiment.py
 │       │   ├── multi_ew_stats_mrl_nonan.py
 │       │   ├── ...
-|       |   └── plot_results.ipynb
-│       └── tune_lgbm_dagshub.py
+|       |   └── plot_results.ipynb *
+│       └── tune_lgbm_dagshub.py *
 ├── dataset
 │   └── dataset.py
 ├── processing
 │   ├── feature_mappers.py
-│   └── label_mappers.py
+│   └── label_mappers.py *
 ├── utils
 │   └── utils.py
 ├── visualization
