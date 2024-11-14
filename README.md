@@ -30,7 +30,6 @@ In this version, MAIS implements a multiclass LGBM classifier, with the followin
 │       │   ├── multi_ew_stats_mrl_nonan.py
 │       │   └── ...
 │       ├── train_lgbm_dagshub.py
-│       └── tune_lgbm.py
 ├── dataset
 │   └── dataset.py
 ├── processing
