@@ -1,18 +1,7 @@
 # Mestrado-em-Engenharia-Eletrica
 
-# Copyright [2024] [Antonio Alberto MOreira de Azevedo]
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+## Licença
+Este projeto é licenciado sob a [Licença Apache 2.0](LICENSE).
 
 Neste repositório estão armazenados somente os módulos e notebooks desenvolvidos e/ou revisados, complementando os módulos do MAIS, e um notebook de análise de agrupamento da Classe 1 (Experimento 6), para implementação dos experimentos relatados na dissertação de Mestrado em Engenharia Elétrica de Antonio Alberto Moreira de Azevedo. Portanto, no Pacote do MAIS, o módulo tune_lgbm.py_ foi substituído pelo tune_lgbm_dagshub.py (\*), contendo as funções necessárias para publicar os resultados dos experimentos e cenários associados, de treinamento e teste, inclusive os modelos treinados, no repositório MLFLOW. Foi adicionado o notebook plot_results.ipynb (\*), para emissão dos desenhos das matrizes de confusão, matrizes de confusão das anomalias agrupadas, e para os gráficos representativos de evolução temporal dos sensores e das inferências por instância usadas nos experimentos (alarme de evento), com legendas no idioma português. Deve ser substituído o label_mappers.py (\*) pelo arquivo deste repositório, pois foram adicionadas classes com objetivo de realizar os Experimentos 1 e 2 da dissertação. O LEIA-ME do MAIS foi revisado (verão 2.0),conforme disposto abaixo, constando as alterações mencionadas acima. Os demais módulos do MAIS não foram alterados e podem ser carregados do repositório https://github.com/petrobras/3W/tree/main/toolkit/mais.
 
