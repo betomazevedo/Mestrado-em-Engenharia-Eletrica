@@ -48,7 +48,7 @@ In this version, MAIS implements a multiclass LGBM classifier, with the followin
 │   └── generate_report.py
 └── setup.py
 ```
-MAIS uses a class called Experiment, which contains all the necessary steps to create your experiment.  So, under the folder "experimentstraining/multiclass/experiments/", you add your custom Experiment class, based on the BaseExperiment,  defined on "experimentstraining/multiclass/experiments/base_experiment.py". Some examples are already implemented in order toto give an idea on how an experiment is created.
+MAIS uses a class called Experiment, which contains all the necessary steps to create your experiment.  So, under the folder "experimentstraining/multiclass/experiments/", you add your custom Experiment class, based on the BaseExperiment,  defined on "experimentstraining/multiclass/experiments/base_experiment.py". Some examples are already implemented in order to give an idea on how an experiment is created.
 
 The "mais/" folder contains classes definitions that create everything that is used to create an experiment, i.e., contains all utility classes . Some of them are 
 
