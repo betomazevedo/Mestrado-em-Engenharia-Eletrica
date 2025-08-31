@@ -53,7 +53,7 @@ MAIS uses a class called Experiment, which contains all the necessary steps to c
 The "mais/" folder contains classes definitions that create everything that is used to create an experiment, i.e., contains all utility classes . Some of them are 
 
   1. mais/dataset/dataset.py: Defines the class MAEDataset, which contains the core logic behind MAIS dataloader.  Some of its functions are: read a .csv, read the feature extraction, create the final table (the model input).
-  2. mais/dataprocessing/feature\_mappers.py: Defines the classes that extract the attributes for a given experiment. t The implementation uses torch in order toto make the extraction faster when using a lot of data. In the current version there are some strategies already implemented, for example: 
+  2. mais/dataprocessing/feature\_mappers.py: Defines the classes that extract the attributes for a given experiment. The implementation uses torch in order to make the extraction faster when using a lot of data. In the current version there are some strategies already implemented, for example: 
      1. TorchStatisticalFeatureMapper: created statistical features (9/tag) from a rectangular window;
      2. TorchWaveletFeatureMapper: creates wavelets features;
      3. TorchEWStatisticalFeatureMapper: creates statistical features from a window with exponential weights for each sample.
